@@ -80,8 +80,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.amazonaws.athena.connector.lambda.domain.predicate.functions.StandardFunctions.ARRAY_CONSTRUCTOR_FUNCTION_NAME;
-
 public class SqlServerMetadataHandler extends JdbcMetadataHandler
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlServerMetadataHandler.class);
@@ -164,7 +162,6 @@ public class SqlServerMetadataHandler extends JdbcMetadataHandler
     @Override
     public GetDataSourceCapabilitiesResponse doGetDataSourceCapabilities(BlockAllocator allocator, GetDataSourceCapabilitiesRequest request)
     {
-        Set<StandardFunctions> unSupportedFunctions = Set.of(ARRAY_CONSTRUCTOR_FUNCTION_NAME);
         ImmutableMap.Builder<String, List<OptimizationSubType>> capabilities = ImmutableMap.builder();
 
         capabilities.put(DataSourceOptimizations.SUPPORTS_FILTER_PUSHDOWN.withSupportedSubTypes(
@@ -173,7 +170,6 @@ public class SqlServerMetadataHandler extends JdbcMetadataHandler
         capabilities.put(DataSourceOptimizations.SUPPORTS_COMPLEX_EXPRESSION_PUSHDOWN.withSupportedSubTypes(
                 ComplexExpressionPushdownSubType.SUPPORTED_FUNCTION_EXPRESSION_TYPES
                         .withSubTypeProperties(Arrays.stream(StandardFunctions.values())
-                                .filter(values -> !unSupportedFunctions.contains(values))
                                 .map(standardFunctions -> standardFunctions.getFunctionName().getFunctionName())
                                 .toArray(String[]::new))
         ));
