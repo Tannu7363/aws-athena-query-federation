@@ -32,7 +32,7 @@ import java.util.List;
 public class SqlServerQueryStringBuilder extends JdbcSplitQueryBuilder
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlServerQueryStringBuilder.class);
-    public SqlServerQueryStringBuilder(final String quoteCharacters, FederationExpressionParser federationExpressionParser)
+    public SqlServerQueryStringBuilder(String quoteCharacters, final FederationExpressionParser federationExpressionParser)
     {
         super(quoteCharacters, federationExpressionParser);
     }
